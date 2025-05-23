@@ -49,18 +49,6 @@ src/
    http://localhost:5173/login
    ```
 
-## 🖥️ Funcionalidades
-
-- Tela de login moderna e responsiva
-- Paleta de cores personalizada (Turquesa, Azul Escuro, Cinza)
-- Estrutura pronta para adicionar novas páginas e rotas
-
-## 🎨 Customização de Estilos
-
-- Os estilos principais do botão de login estão em:  
-  `src/pages/LoginPage/styles/index.css`
-- Use as classes `.btn-turquesa` e `.text-azul` para aplicar a paleta personalizada.
-
 ## 📦 Build para produção
 
 ```bash
