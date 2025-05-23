@@ -1,0 +1,28 @@
+/* Botão principal turquesa */
+.btn-turquesa {
+  background: #2a7d7d;
+  color: #fff;
+  border-radius: 0.75rem;
+  font-weight: bold;
+  font-size: 1.125rem;
+  padding: 0.75rem 0;
+  box-shadow: 0 2px 16px 0 rgba(42, 125, 125, 0.1);
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
+  border: none;
+}
+
+.btn-turquesa:hover,
+.btn-turquesa:focus {
+  background: #1a6d6d;
+  box-shadow: 0 4px 24px 0 rgba(42, 125, 125, 0.18);
+}
+
+/* Texto azul */
+.text-azul {
+  color: #2a7d7d;
+}
+
+
+
