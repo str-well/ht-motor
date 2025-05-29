@@ -1,4 +1,4 @@
-# HT Motor 🚗
+# HT Motor 
 
 ## Sobre o Projeto
 
