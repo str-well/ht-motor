@@ -20,6 +20,9 @@ import { Route as errors403Import } from './routes/(errors)/403'
 import { Route as errors401Import } from './routes/(errors)/401'
 import { Route as authSignInImport } from './routes/(auth)/sign-in'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings/route'
+import { Route as AuthenticatedProjetosFechadosRouteImport } from './routes/_authenticated/projetos-fechados/route'
+import { Route as AuthenticatedProjetosAtivosRouteImport } from './routes/_authenticated/projetos-ativos/route'
+import { Route as AuthenticatedLeadsNovosRouteImport } from './routes/_authenticated/leads-novos/route'
 import { Route as AuthenticatedUsersIndexImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedTasksIndexImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedSettingsIndexImport } from './routes/_authenticated/settings/index'
@@ -87,6 +90,27 @@ const AuthenticatedSettingsRouteRoute = AuthenticatedSettingsRouteImport.update(
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any,
 )
+
+const AuthenticatedProjetosFechadosRouteRoute =
+  AuthenticatedProjetosFechadosRouteImport.update({
+    id: '/projetos-fechados',
+    path: '/projetos-fechados',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
+const AuthenticatedProjetosAtivosRouteRoute =
+  AuthenticatedProjetosAtivosRouteImport.update({
+    id: '/projetos-ativos',
+    path: '/projetos-ativos',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
+const AuthenticatedLeadsNovosRouteRoute =
+  AuthenticatedLeadsNovosRouteImport.update({
+    id: '/leads-novos',
+    path: '/leads-novos',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexImport.update({
   id: '/users/',
@@ -165,6 +189,27 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRoute
+    }
+    '/_authenticated/leads-novos': {
+      id: '/_authenticated/leads-novos'
+      path: '/leads-novos'
+      fullPath: '/leads-novos'
+      preLoaderRoute: typeof AuthenticatedLeadsNovosRouteImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
+    '/_authenticated/projetos-ativos': {
+      id: '/_authenticated/projetos-ativos'
+      path: '/projetos-ativos'
+      fullPath: '/projetos-ativos'
+      preLoaderRoute: typeof AuthenticatedProjetosAtivosRouteImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
+    '/_authenticated/projetos-fechados': {
+      id: '/_authenticated/projetos-fechados'
+      path: '/projetos-fechados'
+      fullPath: '/projetos-fechados'
+      preLoaderRoute: typeof AuthenticatedProjetosFechadosRouteImport
+      parentRoute: typeof AuthenticatedRouteImport
     }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
@@ -321,6 +366,9 @@ const AuthenticatedSettingsRouteRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedLeadsNovosRouteRoute: typeof AuthenticatedLeadsNovosRouteRoute
+  AuthenticatedProjetosAtivosRouteRoute: typeof AuthenticatedProjetosAtivosRouteRoute
+  AuthenticatedProjetosFechadosRouteRoute: typeof AuthenticatedProjetosFechadosRouteRoute
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
@@ -331,6 +379,10 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedLeadsNovosRouteRoute: AuthenticatedLeadsNovosRouteRoute,
+  AuthenticatedProjetosAtivosRouteRoute: AuthenticatedProjetosAtivosRouteRoute,
+  AuthenticatedProjetosFechadosRouteRoute:
+    AuthenticatedProjetosFechadosRouteRoute,
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
@@ -345,6 +397,9 @@ const AuthenticatedRouteRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRouteRouteWithChildren
+  '/leads-novos': typeof AuthenticatedLeadsNovosRouteRoute
+  '/projetos-ativos': typeof AuthenticatedProjetosAtivosRouteRoute
+  '/projetos-fechados': typeof AuthenticatedProjetosFechadosRouteRoute
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/sign-in': typeof authSignInRoute
   '/401': typeof errors401Route
@@ -366,6 +421,9 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/leads-novos': typeof AuthenticatedLeadsNovosRouteRoute
+  '/projetos-ativos': typeof AuthenticatedProjetosAtivosRouteRoute
+  '/projetos-fechados': typeof AuthenticatedProjetosFechadosRouteRoute
   '/sign-in': typeof authSignInRoute
   '/401': typeof errors401Route
   '/403': typeof errors403Route
@@ -388,6 +446,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_authenticated/leads-novos': typeof AuthenticatedLeadsNovosRouteRoute
+  '/_authenticated/projetos-ativos': typeof AuthenticatedProjetosAtivosRouteRoute
+  '/_authenticated/projetos-fechados': typeof AuthenticatedProjetosFechadosRouteRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
   '/(auth)/sign-in': typeof authSignInRoute
   '/(errors)/401': typeof errors401Route
@@ -412,6 +473,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
+    | '/leads-novos'
+    | '/projetos-ativos'
+    | '/projetos-fechados'
     | '/settings'
     | '/sign-in'
     | '/401'
@@ -432,6 +496,9 @@ export interface FileRouteTypes {
     | '/users'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/leads-novos'
+    | '/projetos-ativos'
+    | '/projetos-fechados'
     | '/sign-in'
     | '/401'
     | '/403'
@@ -452,6 +519,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_authenticated'
+    | '/_authenticated/leads-novos'
+    | '/_authenticated/projetos-ativos'
+    | '/_authenticated/projetos-fechados'
     | '/_authenticated/settings'
     | '/(auth)/sign-in'
     | '/(errors)/401'
@@ -515,6 +585,9 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated/route.tsx",
       "children": [
+        "/_authenticated/leads-novos",
+        "/_authenticated/projetos-ativos",
+        "/_authenticated/projetos-fechados",
         "/_authenticated/settings",
         "/_authenticated/",
         "/_authenticated/apps/",
@@ -523,6 +596,18 @@ export const routeTree = rootRoute
         "/_authenticated/tasks/",
         "/_authenticated/users/"
       ]
+    },
+    "/_authenticated/leads-novos": {
+      "filePath": "_authenticated/leads-novos/route.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/projetos-ativos": {
+      "filePath": "_authenticated/projetos-ativos/route.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/projetos-fechados": {
+      "filePath": "_authenticated/projetos-fechados/route.tsx",
+      "parent": "/_authenticated"
     },
     "/_authenticated/settings": {
       "filePath": "_authenticated/settings/route.tsx",

@@ -66,6 +66,21 @@ export const sidebarData: SidebarData = {
           url: '/users',
           icon: IconUsers,
         },
+        {
+          title: 'Projetos ativos',
+          url: '/projetos-ativos',
+          icon: IconPackages,
+        },
+        {
+          title: 'Projetos fechados',
+          url: '/projetos-fechados',
+          icon: IconPackages,
+        },
+        {
+          title: 'Leads novos',
+          url: '/leads-novos',
+          icon: IconPackages,
+        },
       ],
     },
   ],
