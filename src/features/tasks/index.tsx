@@ -5,6 +5,7 @@ import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { columns } from './components/columns'
 import { DataTable } from './components/data-table'
+import PipefyCards from './components/pipefy-cards'
 import { TasksDialogs } from './components/tasks-dialogs'
 import { TasksPrimaryButtons } from './components/tasks-primary-buttons'
 import TasksProvider from './context/tasks-context'
@@ -31,8 +32,10 @@ export default function Tasks() {
           </div>
           <TasksPrimaryButtons />
         </div>
+        {/* Cards do Pipefy */}
+
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
-          <DataTable data={tasks} columns={columns} />
+          <PipefyCards />
         </div>
       </Main>
 
