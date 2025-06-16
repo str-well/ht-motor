@@ -10,7 +10,7 @@ export const leadSchema = z.object({
   tipo_energia: z.string().optional(),
   consumo_mensal: z.string().optional(),
   status_observacoes: z.string().optional(),
-  data_atualizacao: z.string().optional(),
+  data_atualizacao: z.date().optional(),
   proximo_fup: z.string().optional(),
 })
 

@@ -19,7 +19,7 @@ import {
   IconUserOff,
   IconUsers,
 } from '@tabler/icons-react'
-import { AudioWaveform, Leaf , GalleryVerticalEnd } from 'lucide-react'
+import { AudioWaveform, Leaf, GalleryVerticalEnd } from 'lucide-react'
 import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
 
@@ -32,7 +32,7 @@ export const sidebarData: SidebarData = {
   teams: [
     {
       name: 'Wellington',
-      logo: Leaf ,
+      logo: Leaf,
       plan: 'HT Ecosolutions',
     },
   ],
@@ -80,6 +80,11 @@ export const sidebarData: SidebarData = {
           title: 'Leads novos',
           url: '/leads-novos',
           icon: IconPackages,
+        },
+        {
+          title: 'Gerar proposta',
+          url: '/propostas',
+          icon: GalleryVerticalEnd,
         },
       ],
     },
