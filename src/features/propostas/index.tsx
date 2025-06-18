@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { leadSchema, Lead } from '@/features/leads-novos/data/schema'
 import { LeadAutocomplete } from './components/lead-autocomplete'
 import { ConsumoRealForm } from './consumo-real-form'
+import { QuantitativoForm } from './quantitativo-form'
 
 const PIPE_ID = 718890
 
@@ -20,13 +21,16 @@ const emptyLead: Partial<Lead> = {
 
 export default function PropostaInicio() {
   const [leads, setLeads] = useState<Lead[]>([])
-  const [step, setStep] = useState<'select' | 'form' | 'consumo'>('select')
+  const [step, setStep] = useState<
+    'select' | 'form' | 'consumo' | 'quantitativo'
+  >('select')
   const [selectedLeadId, setSelectedLeadId] = useState<string>('')
   const [formData, setFormData] = useState<Partial<Lead>>(emptyLead)
   const [error, setError] = useState<string>('')
   const [consumoData, setConsumoData] = useState<Record<string, string> | null>(
     null
   )
+  const [quantData, setQuantData] = useState<any[] | null>(null)
 
   useEffect(() => {
     getAllPipefyCards(PIPE_ID).then((cards) => {
@@ -99,14 +103,23 @@ export default function PropostaInicio() {
     setStep('consumo')
   }
 
-  function handleConsumoSubmit(data: Record<string, string>) {
+  function handleConsumoSubmit(data: Record<string, any>) {
     setConsumoData(data)
-    // Aqui você pode avançar para a próxima etapa do fluxo (ex: resumo ou geração de proposta)
-    alert('Dados de consumo real salvos!')
+    setStep('quantitativo')
+  }
+
+  function handleQuantSubmit(constructions: any[]) {
+    setQuantData(constructions)
+    // Aqui seguir para resumo ou geração de proposta
+    alert('Dados quantitativos salvos!')
   }
 
   function handleBackToForm() {
     setStep('form')
+  }
+
+  function handleBackToConsumo() {
+    setStep('consumo')
   }
 
   return (
@@ -220,6 +233,12 @@ export default function PropostaInicio() {
         <ConsumoRealForm
           onBack={handleBackToForm}
           onSubmit={handleConsumoSubmit}
+        />
+      )}
+      {step === 'quantitativo' && (
+        <QuantitativoForm
+          onBack={handleBackToConsumo}
+          onSubmit={handleQuantSubmit}
         />
       )}
     </div>

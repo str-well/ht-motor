@@ -1,11 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
+interface EnergyItem {
+  label: string
+  value: string
+}
+interface GasItem {
+  local: string
+  account: string
+  mesAno: string
+  porcentagem: string
+}
+interface OcupacaoItem {
+  mesAno: string
+  porcentagem: string
+}
+
 interface ConsumoRealFormProps {
   onBack: () => void
-  onSubmit: (data: Record<string, string>) => void
-  initialData?: Record<string, string>
+  onSubmit: (data: {
+    energyItems: EnergyItem[]
+    gasItems: GasItem[]
+    ocupacaoItems: OcupacaoItem[]
+  }) => void
+  initialData?: {
+    energyItems?: EnergyItem[]
+    gasItems?: GasItem[]
+    ocupacaoItems?: OcupacaoItem[]
+  }
 }
 
 export function ConsumoRealForm({
@@ -13,212 +36,180 @@ export function ConsumoRealForm({
   onSubmit,
   initialData,
 }: ConsumoRealFormProps) {
-  const [form, setForm] = React.useState<Record<string, string>>(
-    initialData || {
-      ocupacao: '',
-      energia: '',
-      piscina_adulto: '',
-      piscina_infantil: '',
-      hidromassagem: '',
-      aquecimento_uh: '',
-      lavanderia: '',
-      cozinhas: '',
-      jacuzzis: '',
-      quartos: '',
-      banheira: '',
-      calefacao: '',
-      temp_min: '',
-      temp_max: '',
-      temp_media: '',
-      precipitacao: '',
-    }
+  const [energyItems, setEnergyItems] = useState<EnergyItem[]>(
+    initialData?.energyItems || [{ label: '', value: '' }]
+  )
+  const [gasItems, setGasItems] = useState<GasItem[]>(
+    initialData?.gasItems || [
+      { local: '', account: '', mesAno: '', porcentagem: '' },
+    ]
+  )
+  const [ocupacaoItems, setOcupacaoItems] = useState<OcupacaoItem[]>(
+    initialData?.ocupacaoItems || [{ mesAno: '', porcentagem: '' }]
   )
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  function handleEnergyChange(
+    index: number,
+    field: keyof EnergyItem,
+    val: string
+  ) {
+    const items = [...energyItems]
+    items[index][field] = val
+    setEnergyItems(items)
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  function addEnergyItem() {
+    setEnergyItems([...energyItems, { label: '', value: '' }])
+  }
+  function removeEnergyItem(idx: number) {
+    setEnergyItems(energyItems.filter((_, i) => i !== idx))
+  }
+
+  function handleGasChange(index: number, field: keyof GasItem, val: string) {
+    const items = [...gasItems]
+    items[index][field] = val
+    setGasItems(items)
+  }
+  function addGasItem() {
+    setGasItems([
+      ...gasItems,
+      { local: '', account: '', mesAno: '', porcentagem: '' },
+    ])
+  }
+  function removeGasItem(idx: number) {
+    setGasItems(gasItems.filter((_, i) => i !== idx))
+  }
+
+  function handleOcupacaoChange(
+    index: number,
+    field: keyof OcupacaoItem,
+    val: string
+  ) {
+    const items = [...ocupacaoItems]
+    items[index][field] = val
+    setOcupacaoItems(items)
+  }
+  function addOcupacaoItem() {
+    setOcupacaoItems([...ocupacaoItems, { mesAno: '', porcentagem: '' }])
+  }
+  function removeOcupacaoItem(idx: number) {
+    setOcupacaoItems(ocupacaoItems.filter((_, i) => i !== idx))
+  }
+
+  function handleFinalSubmit(e: React.FormEvent) {
     e.preventDefault()
-    onSubmit(form)
+    onSubmit({ energyItems, gasItems, ocupacaoItems })
   }
 
   return (
-    <form className='space-y-4' onSubmit={handleSubmit}>
-      <h2 className='mb-2 text-xl font-bold'>Inputs de Consumo Real</h2>
-      <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>
-            Tx Ocupação (%)
-          </label>
-          <Input
-            name='ocupacao'
-            placeholder='Ex: 49,00'
-            value={form.ocupacao}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>
-            Tarifa de Energia Elétrica
-          </label>
-          <Input
-            name='energia'
-            placeholder='Ex: COPEL/MATRIX (MLE)'
-            value={form.energia}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>
-            Piscina adulto (m²)
-          </label>
-          <Input
-            name='piscina_adulto'
-            placeholder='Ex: 133m²'
-            value={form.piscina_adulto}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>
-            Piscina infantil (m²)
-          </label>
-          <Input
-            name='piscina_infantil'
-            placeholder='Ex: 22m²'
-            value={form.piscina_infantil}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>
-            Hidromassagem (m³)
-          </label>
-          <Input
-            name='hidromassagem'
-            placeholder='Ex: 4'
-            value={form.hidromassagem}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>
-            Aquecimento de UH (Banho)
-          </label>
-          <Input
-            name='aquecimento_uh'
-            placeholder='Ex: 275'
-            value={form.aquecimento_uh}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>Lavanderia</label>
-          <Input
-            name='lavanderia'
-            placeholder='Ex: 0'
-            value={form.lavanderia}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>Cozinhas</label>
-          <Input
-            name='cozinhas'
-            placeholder='Ex: 0'
-            value={form.cozinhas}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>
-            Jacuzzis Externas
-          </label>
-          <Input
-            name='jacuzzis'
-            placeholder='Ex: 11'
-            value={form.jacuzzis}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>Quartos</label>
-          <Input
-            name='quartos'
-            placeholder='Ex: 261'
-            value={form.quartos}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>Banheira</label>
-          <Input
-            name='banheira'
-            placeholder='Ex: 0'
-            value={form.banheira}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>Calefação</label>
-          <Input
-            name='calefacao'
-            placeholder='Ex: 332'
-            value={form.calefacao}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>
-            Temp. Mínima (°C)
-          </label>
-          <Input
-            name='temp_min'
-            placeholder='Ex: 9,0'
-            value={form.temp_min}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>
-            Temp. Máxima (°C)
-          </label>
-          <Input
-            name='temp_max'
-            placeholder='Ex: 27,0'
-            value={form.temp_max}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>
-            Temp. Média (°C)
-          </label>
-          <Input
-            name='temp_media'
-            placeholder='Ex: 22,5'
-            value={form.temp_media}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label className='mb-1 block text-sm font-medium'>
-            Precipitação (mm)
-          </label>
-          <Input
-            name='precipitacao'
-            placeholder='Ex: 222'
-            value={form.precipitacao}
-            onChange={handleChange}
-          />
-        </div>
-      </div>
+    <form className='space-y-6' onSubmit={handleFinalSubmit}>
+      <h2 className='text-xl font-bold'>Consumo Real Dinâmico</h2>
+      {/* Seção Energia */}
+      <section className='space-y-2'>
+        <h3 className='font-semibold'>Energia</h3>
+        {energyItems.map((item, idx) => (
+          <div key={idx} className='flex items-center gap-2'>
+            <Input
+              placeholder='Nome do Item'
+              value={item.label}
+              onChange={(e) => handleEnergyChange(idx, 'label', e.target.value)}
+            />
+            <Input
+              placeholder='Valor'
+              value={item.value}
+              onChange={(e) => handleEnergyChange(idx, 'value', e.target.value)}
+            />
+            <button
+              type='button'
+              onClick={() => removeEnergyItem(idx)}
+              className='text-red-500'
+            >
+              Remover
+            </button>
+          </div>
+        ))}
+        <Button type='button' variant='outline' onClick={addEnergyItem}>
+          Adicionar Energia
+        </Button>
+      </section>
+      {/* Seção Gás */}
+      <section className='space-y-2'>
+        <h3 className='font-semibold'>Contas de Gás em Uso</h3>
+        {gasItems.map((item, idx) => (
+          <div key={idx} className='grid grid-cols-2 gap-2'>
+            <Input
+              placeholder='Local'
+              value={item.local}
+              onChange={(e) => handleGasChange(idx, 'local', e.target.value)}
+            />
+            <Input
+              placeholder='Nº Conta'
+              value={item.account}
+              onChange={(e) => handleGasChange(idx, 'account', e.target.value)}
+            />
+            <Input
+              placeholder='Mês/Ano'
+              value={item.mesAno}
+              onChange={(e) => handleGasChange(idx, 'mesAno', e.target.value)}
+            />
+            <Input
+              placeholder='%'
+              value={item.porcentagem}
+              onChange={(e) =>
+                handleGasChange(idx, 'porcentagem', e.target.value)
+              }
+            />
+            <button
+              type='button'
+              onClick={() => removeGasItem(idx)}
+              className='col-span-2 text-left text-red-500'
+            >
+              Remover
+            </button>
+          </div>
+        ))}
+        <Button type='button' variant='outline' onClick={addGasItem}>
+          Adicionar Conta de Gás
+        </Button>
+      </section>
+      {/* Seção Ocupação */}
+      <section className='space-y-2'>
+        <h3 className='font-semibold'>Ocupação</h3>
+        {ocupacaoItems.map((item, idx) => (
+          <div key={idx} className='flex items-center gap-2'>
+            <Input
+              placeholder='Mês/Ano'
+              value={item.mesAno}
+              onChange={(e) =>
+                handleOcupacaoChange(idx, 'mesAno', e.target.value)
+              }
+            />
+            <Input
+              placeholder='%'
+              value={item.porcentagem}
+              onChange={(e) =>
+                handleOcupacaoChange(idx, 'porcentagem', e.target.value)
+              }
+            />
+            <button
+              type='button'
+              onClick={() => removeOcupacaoItem(idx)}
+              className='text-red-500'
+            >
+              Remover
+            </button>
+          </div>
+        ))}
+        <Button type='button' variant='outline' onClick={addOcupacaoItem}>
+          Adicionar Ocupação
+        </Button>
+      </section>
+      {/* Ações */}
       <div className='mt-4 flex gap-2'>
         <Button type='button' variant='outline' onClick={onBack}>
           Voltar
         </Button>
-        <Button type='submit'>Avançar</Button>
+        <Button type='submit'>Salvar Consumo</Button>
       </div>
     </form>
   )

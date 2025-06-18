@@ -78,13 +78,7 @@ export function CardDetailsDrawer({
                     </Badge>
                   )}
                 </div>
-                {card.summary && (
-                  <div className='text-muted-foreground mb-4 text-base italic'>
-                    {typeof card.summary === 'string'
-                      ? card.summary
-                      : card.summary?.text || JSON.stringify(card.summary)}
-                  </div>
-                )}
+               
                 <div className='text-muted-foreground mb-2 text-sm'>
                   <b>Fase:</b> {card.current_phase?.name}
                 </div>
